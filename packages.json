@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "eul",
+      "link": "https://github.com/matgla/EmbeddedUtilityLibraries.git",
+      "type": "git",
+      "version": "1.0.1",
+      "target": "eul",
+      "options": {
+        "cmake_variables": {
+          "DISABLE_TESTS": "ON"
+        }
+      }
+    }
+  ]
+}

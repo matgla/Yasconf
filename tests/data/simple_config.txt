@@ -1,0 +1,11 @@
+[section_a]
+name = "This is testing name" 
+other_name = but also this is string 
+some_number = 12345
+
+[section_b]
+subsection_value = value in subsection 
+
+[section_c] 
+name = This is section c 
+value = -129
