@@ -1,5 +1,5 @@
 /**
- * section.hpp
+ * config_entry.hpp
  *
  * Copyright (C) 2024 Mateusz Stadnik <matgla@live.com>
  *
@@ -20,28 +20,11 @@
 
 #pragma once
 
-#include "yasconf/file_reader.hpp"
-
 namespace yasconf
 {
 
-class Section
+class ConfigEntry
 {
-public:
-  constexpr static int max_section_name_length = 64;
-  Section(FileReader &file, int start_line, int end_line);
-
-  Section &operator=(const Section &);
-
-  std::string_view operator[](const std::string_view &key);
-
-  std::string_view name() const;
-
-private:
-  FileReader &file_;
-  int start_line_;
-  int end_line_;
-  char name_[max_section_name_length];
 };
 
 } // namespace yasconf

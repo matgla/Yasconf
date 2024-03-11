@@ -1,5 +1,5 @@
 /**
- * file_reader.hpp
+ * config_tests.cpp
  *
  * Copyright (C) 2024 Mateusz Stadnik <matgla@live.com>
  *
@@ -18,33 +18,27 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-#include <span>
-#include <string_view>
-
-#include <eul/error/error_code.hpp>
+#include "yasconf/config.hpp"
 
 namespace yasconf
 {
 
-class FileReader
+class ConfigShould : public ::testing::Test
 {
-public:
-  explicit FileReader(const std::string_view &file, std::span<char> buffer) noexcept;
-
-  ~FileReader() noexcept;
-
-  bool is_open() const;
-
-  void set_line(int line, eul::error::error_code &ec);
-  std::string_view next_line(eul::error::error_code &ec);
-  std::string_view previous_line(eul::error::error_code &ec);
-
-private:
-  int fd_;
-  std::size_t position_;
-  std::span<char> buffer_;
 };
+
+TEST_F(ConfigShould, OpenFile)
+{
+  Config<256> config("./data/simple_config.txt");
+  EXPECT_TRUE(config.is_open());
+}
+
+TEST_F(ConfigShould, ReportFalseWhenOpeningFailed)
+{
+  Config<256> config("./data/nonexistent.txt");
+  EXPECT_FALSE(config.is_open());
+}
 
 } // namespace yasconf

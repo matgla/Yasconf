@@ -1,11 +1,10 @@
-[section_a]
-name = "This is testing name" 
-other_name = but also this is string 
-some_number = 12345
+parameter_a = 1.234 
+some_string = "Hello World!"
+other_string_convention = 'other string'
+or_even_this = to be or not to be
+but_in_the_middle = this is 'quote' string 
+integer = 1028398
 
-[section_b]
-subsection_value = value in subsection 
+# and this is comment 
+comment_after_code = 1234 # comment
 
-[section_c] 
-name = This is section c 
-value = -129

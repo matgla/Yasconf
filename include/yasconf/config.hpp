@@ -20,31 +20,42 @@
 
 #pragma once
 
-#include <span>
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 
-#include "yasconf/file_reader.hpp"
-#include "yasconf/section.hpp"
-#include "yasconf/section_iterator.hpp"
+#include <fcntl.h>
+#include <unistd.h>
 
 namespace yasconf
 {
 
-class ConfigParser
+template <std::size_t BufferSize> class Config
 {
 public:
-  ConfigParser(const std::string_view &file, std::span<char> buffer) noexcept;
-  ~ConfigParser() noexcept;
+  Config(const std::string_view &path)
+  {
+    id_ = open(path.data(), O_RDONLY);
+  }
 
-  bool is_open() const;
+  bool is_open() const
+  {
+    return id_ != -1;
+  }
 
-  SectionIterator sections() const;
-
-  Section operator[](const std::string_view &section);
+  void close()
+  {
+    if (id_ != -1)
+    {
+      close(id_);
+      id_ = -1;
+    }
+  }
 
 private:
-  FileReader file_;
-  int last_line_;
+  std::array<uint8_t, BufferSize> buffer_;
+  int id_;
 };
 
 } // namespace yasconf

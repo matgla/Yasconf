@@ -1,5 +1,5 @@
 /**
- * yasconf_error_category.hpp
+ * entry_iterator.hpp
  *
  * Copyright (C) 2024 Mateusz Stadnik <matgla@live.com>
  *
@@ -20,33 +20,21 @@
 
 #pragma once
 
-#include <eul/error/error_category.hpp>
-#include <eul/error/error_code.hpp>
+#include <iterator>
+
+#include "yasconf/config_entry.hpp"
 
 namespace yasconf
 {
 
-enum class YasconfErrors
-{
-  BufferTooSmall = 1,
-  FileOperationFailed,
-  FileNotOpen,
-  EndOfFile,
-  SectionNotFound
-};
-
-class YasconfErrorCategory : public eul::error::error_category
+class ConfigEntryIterator
 {
 public:
-  [[nodiscard]] std::string_view name() const noexcept override;
-  [[nodiscard]] std::string_view message(int ev) const override;
+  using iterator_category = std::input_iterator_tag;
+  using difference_type = int;
+  using value_type = ConfigEntry;
+  using pointer = ConfigEntry *;
+  using reference = ConfigEntry &;
 };
 
 } // namespace yasconf
-
-namespace eul::error
-{
-
-template <> error_code make_error_code<yasconf::YasconfErrors>(yasconf::YasconfErrors e);
-
-} // namespace eul::error
