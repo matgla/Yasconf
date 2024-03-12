@@ -28,10 +28,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "yasconf/config_entry.hpp"
+
 namespace yasconf
 {
 
-template <std::size_t BufferSize> class Config
+template <std::size_t BufferSize>
+class Config
 {
 public:
   Config(const std::string_view &path)
@@ -53,8 +56,15 @@ public:
     }
   }
 
+  ConfigEntry<BufferSize> first() const
+  {
+    lseek(id_, 0, SEEK_SET);
+    ConfigEntry<BufferSize> n(id_);
+    n.next();
+    return n;
+  }
+
 private:
-  std::array<uint8_t, BufferSize> buffer_;
   int id_;
 };
 

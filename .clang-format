@@ -1,10 +1,15 @@
 ---
 BasedOnStyle: Microsoft
-AllowShortBlocksOnASingleLine: 'false'
+AccessModifierOffset: -2 
+AllowShortBlocksOnASingleLine: Never
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: None
-ColumnLimit: '100'
-IndentWidth: '2'
-
-...
+PackConstructorInitializers: Never
+ColumnLimit: 85 
+IndentWidth: 2
+ContinuationIndentWidth: 2
+BracedInitializerIndentWidth: 2
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerIndentWidth: 2
+AlwaysBreakTemplateDeclarations: Yes 

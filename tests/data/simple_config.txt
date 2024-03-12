@@ -1,10 +1,26 @@
 parameter_a = 1.234 
-some_string = "Hello World!"
-other_string_convention = 'other string'
-or_even_this = to be or not to be
+par_without_space=12345678
+some_string="Hello World!"
+     other_string_convention = 'other string'      
+  
+  or_even_this = to be or not to be
 but_in_the_middle = this is 'quote' string 
-integer = 1028398
+   integer      =    1028398
 
 # and this is comment 
-comment_after_code = 1234 # comment
+comment_after_code              = 1234 # comment
+
+empty_value = 
+
+comment_value =# Just a comment 
+
+wrong_value
+
+partial_quote_begin = 'test 
+
+partial_quote_end = end'
+
+
+"wrong key?"= "wrong value"
+
 
