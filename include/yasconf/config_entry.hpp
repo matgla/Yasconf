@@ -40,6 +40,15 @@ public:
   {
   }
 
+  ConfigEntry(bool eof) noexcept
+    : eof_{eof}
+    , fd_{-1}
+    , line_{}
+    , key_{}
+    , value_{}
+  {
+  }
+
   std::string_view key() const
   {
     return key_;
@@ -65,6 +74,11 @@ public:
       }
     } while (key_.empty());
     return true;
+  }
+
+  std::string_view operator*() const
+  {
+    return value_;
   }
 
 private:

@@ -27,14 +27,44 @@
 namespace yasconf
 {
 
+template <std::size_t BufferSize>
 class ConfigEntryIterator
 {
 public:
   using iterator_category = std::input_iterator_tag;
   using difference_type = int;
-  using value_type = ConfigEntry;
-  using pointer = ConfigEntry *;
-  using reference = ConfigEntry &;
+  using value_type = ConfigEntry<BufferSize>;
+  using pointer = ConfigEntry<BufferSize> *;
+  using reference = ConfigEntry<BufferSize> &;
+
+  using self = ConfigEntryIterator<BufferSize>;
+  bool operator==(const self &other)
+  {
+    if (other.eof() == value_.eof())
+    {
+      return true;
+    }
+    return value_.key() == other.value_.key() &&
+           value_.value() == other.value_.value();
+  }
+
+  bool operator!=(const self &other)
+  {
+    return !this->operator==(other);
+  }
+
+  reference operator*()
+  {
+    return value_;
+  }
+
+  pointer operator->()
+  {
+    return &value_;
+  }
+
+private:
+  value_type value_;
 };
 
 } // namespace yasconf

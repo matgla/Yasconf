@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include <array>
 #include <cstddef>
-#include <cstdint>
 #include <string_view>
 
 #include <fcntl.h>
@@ -62,6 +60,18 @@ public:
     ConfigEntry<BufferSize> n(id_);
     n.next();
     return n;
+  }
+
+  ConfigEntry<BufferSize> operator[](const std::string_view &key)
+  {
+    for (ConfigEntry<BufferSize> n = first(); !n.eof(); n.next())
+    {
+      if (n.key() == key)
+      {
+        return n;
+      }
+    }
+    return ConfigEntry<BufferSize>(true);
   }
 
 private:

@@ -64,26 +64,25 @@ TEST_F(ConfigShould, ReportFalseWhenOpeningFailed)
   EXPECT_FALSE(config.is_open());
 }
 
+const auto simple_config_expect = std::experimental::make_array(
+  std::make_pair("parameter_a", "1.234"),
+  std::make_pair("par_without_space", "12345678"),
+  std::make_pair("some_string", "Hello World!"),
+  std::make_pair("other_string_convention", "other string"),
+  std::make_pair("or_even_this", "to be or not to be"),
+  std::make_pair("but_in_the_middle", "this is 'quote' string"),
+  std::make_pair("integer", "1028398"), std::make_pair("comment_after_code", "1234"),
+  std::make_pair("empty_value", ""), std::make_pair("comment_value", ""),
+  std::make_pair("partial_quote_begin", "'test"),
+  std::make_pair("partial_quote_end", "end'"),
+  std::make_pair("\"wrong key?\"", "wrong value"));
+
 TEST_F(ConfigShould, ReadLines)
 {
   Config<128> config("./data/simple_config.txt");
-  const auto expectations = std::experimental::make_array(
-    std::make_pair("parameter_a", "1.234"),
-    std::make_pair("par_without_space", "12345678"),
-    std::make_pair("some_string", "Hello World!"),
-    std::make_pair("other_string_convention", "other string"),
-    std::make_pair("or_even_this", "to be or not to be"),
-    std::make_pair("but_in_the_middle", "this is 'quote' string"),
-    std::make_pair("integer", "1028398"),
-    std::make_pair("comment_after_code", "1234"), std::make_pair("empty_value", ""),
-    std::make_pair("comment_value", ""),
-    std::make_pair("partial_quote_begin", "'test"),
-    std::make_pair("partial_quote_end", "end'"),
-    std::make_pair("\"wrong key?\"", "wrong value"));
-
   auto entry = config.first();
 
-  for (const auto &e : expectations)
+  for (const auto &e : simple_config_expect)
   {
     EXPECT_FALSE(entry.eof());
     EXPECT_THAT(entry.key(), ::testing::StrEq(e.first));
@@ -91,6 +90,47 @@ TEST_F(ConfigShould, ReadLines)
     entry.next();
   }
   EXPECT_TRUE(entry.eof());
+}
+
+TEST_F(ConfigShould, ReadLinesWithWithAccessOperator)
+{
+  Config<128> config("./data/simple_config.txt");
+  auto entry = config.first();
+
+  for (const auto &e : simple_config_expect)
+  {
+    EXPECT_FALSE(entry.eof());
+    EXPECT_THAT(entry.key(), ::testing::StrEq(e.first));
+    EXPECT_THAT(*entry, ::testing::StrEq(e.second));
+    entry.next();
+  }
+  EXPECT_TRUE(entry.eof());
+}
+
+TEST_F(ConfigShould, ReturnCorrectKeys)
+{
+  const auto simple_config_expect = std::experimental::make_array(
+    std::make_pair("parameter_a", "1.234"),
+    std::make_pair("or_even_this", "to be or not to be"),
+    std::make_pair("partial_quote_begin", "'test"),
+    std::make_pair("but_in_the_middle", "this is 'quote' string"),
+    std::make_pair("integer", "1028398"),
+    std::make_pair("comment_after_code", "1234"), std::make_pair("empty_value", ""),
+    std::make_pair("comment_value", ""),
+    std::make_pair("other_string_convention", "other string"),
+    std::make_pair("partial_quote_end", "end'"),
+    std::make_pair("par_without_space", "12345678"),
+    std::make_pair("some_string", "Hello World!"),
+    std::make_pair("\"wrong key?\"", "wrong value"));
+
+  Config<128> config("./data/simple_config.txt");
+
+  for (const auto &e : simple_config_expect)
+  {
+    EXPECT_THAT(*config[e.first], e.second);
+  }
+
+  EXPECT_TRUE(config["no such key"].eof());
 }
 
 } // namespace yasconf
