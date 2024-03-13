@@ -38,9 +38,12 @@ target_sources(yasconf_tests
 
 target_link_libraries(yasconf_tests 
   PRIVATE 
-    GTest::gtest_main 
+    GTest::gtest_main
+    GTest::gmock
     yasconf
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/simple_config.txt
   ${PROJECT_BINARY_DIR}/data/simple_config.txt COPYONLY)
+
+add_test(NAME yasconf_tests COMMAND yasconf_tests)

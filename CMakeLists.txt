@@ -45,5 +45,6 @@ target_sources(yasconf
 target_include_directories(yasconf INTERFACE include)
 
 if (NOT DISABLE_TESTS)
+  enable_testing()
   add_subdirectory(tests)
 endif ()

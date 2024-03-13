@@ -27,6 +27,7 @@
 #include <unistd.h>
 
 #include "yasconf/config_entry.hpp"
+#include "yasconf/config_entry_const_iterator.hpp"
 
 namespace yasconf
 {
@@ -74,6 +75,16 @@ public:
     return ConfigEntry<BufferSize>(true);
   }
 
+  ConfigEntryConstIterator<BufferSize> begin() const 
+  {
+    lseek(id_, 0, SEEK_SET);
+    return {id_};
+  }
+
+  ConfigEntryConstIterator<BufferSize> end() const 
+  {
+    return {true};
+  }
 private:
   int id_;
 };
