@@ -170,8 +170,8 @@ private:
     return i;
   }
 
-  int fd_;
   bool eof_;
+  int fd_;
   std::array<char, LineSize> line_;
   std::string_view key_;
   std::string_view value_;
