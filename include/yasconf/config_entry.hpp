@@ -151,7 +151,7 @@ private:
 
   int read_line_from_file()
   {
-    int i = 0;
+    std::size_t i = 0;
     for (i = 0; i < LineSize; ++i)
     {
       if (read(fd_, &line_[i], 1) != 1)
