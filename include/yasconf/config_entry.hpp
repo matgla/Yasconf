@@ -124,7 +124,6 @@ private:
       return true;
     }
 
-    const std::size_t line_size = key_.size();
     value_ = key_;
     value_ = value_.substr(delimiter + 1);
     key_ = key_.substr(0, delimiter);
