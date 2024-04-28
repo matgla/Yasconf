@@ -45,5 +45,9 @@ target_link_libraries(yasconf_tests
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/simple_config.txt
   ${PROJECT_BINARY_DIR}/data/simple_config.txt COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/boot.conf
+  ${PROJECT_BINARY_DIR}/data/boot.conf COPYONLY)
+
+
 
 add_test(NAME yasconf_tests COMMAND yasconf_tests)

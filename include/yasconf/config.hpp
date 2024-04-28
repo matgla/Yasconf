@@ -65,6 +65,10 @@ public:
 
   ConfigEntry<BufferSize> operator[](const std::string_view &key)
   {
+    if (!is_open())
+    {
+      return ConfigEntry<BufferSize>(true);
+    }
     for (ConfigEntry<BufferSize> n = first(); !n.eof(); n.next())
     {
       if (n.key() == key)
@@ -75,16 +79,17 @@ public:
     return ConfigEntry<BufferSize>(true);
   }
 
-  ConfigEntryConstIterator<BufferSize> begin() const 
+  ConfigEntryConstIterator<BufferSize> begin() const
   {
     lseek(id_, 0, SEEK_SET);
     return {id_};
   }
 
-  ConfigEntryConstIterator<BufferSize> end() const 
+  ConfigEntryConstIterator<BufferSize> end() const
   {
     return {true};
   }
+
 private:
   int id_;
 };
