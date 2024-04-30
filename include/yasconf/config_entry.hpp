@@ -49,6 +49,52 @@ public:
   {
   }
 
+  ConfigEntry(const ConfigEntry &other)
+    : eof_(other.eof_)
+    , fd_(other.fd_)
+    , key_{other.key_}
+    , value_{other.value_}
+  {
+    std::copy(other.line_.begin(), other.line_.end(), line_.begin());
+    std::ptrdiff_t start_offset = other.key_.data() - &other.line_[0];
+    key_ = std::string_view(line_.data() + start_offset, key_.size());
+    start_offset = other.value_.data() - &other.line_[0];
+    value_ = std::string_view(line_.data() + start_offset, value_.size());
+  }
+
+  ConfigEntry &operator=(const ConfigEntry &other)
+  {
+    std::copy(other.line_.begin(), other.line_.end(), line_.begin());
+    std::ptrdiff_t start_offset = other.key_.data() - &other.line_[0];
+    key_ = std::string_view(line_.data() + start_offset, key_.size());
+    start_offset = other.value_.data() - &other.line_[0];
+    value_ = std::string_view(line_.data() + start_offset, value_.size());
+    return *this;
+  }
+
+  ConfigEntry(ConfigEntry &&other)
+    : eof_(other.eof_)
+    , fd_(other.fd_)
+    , key_{other.key_}
+    , value_{other.value_}
+  {
+    std::copy(other.line_.begin(), other.line_.end(), line_.begin());
+    std::ptrdiff_t start_offset = other.key_.data() - &other.line_[0];
+    key_ = std::string_view(line_.data() + start_offset, key_.size());
+    start_offset = other.value_.data() - &other.line_[0];
+    value_ = std::string_view(line_.data() + start_offset, value_.size());
+  }
+
+  ConfigEntry &operator=(ConfigEntry &&other)
+  {
+    std::copy(other.line_.begin(), other.line_.end(), line_.begin());
+    std::ptrdiff_t start_offset = other.key_.data() - &other.line_[0];
+    key_ = std::string_view(line_.data() + start_offset, key_.size());
+    start_offset = other.value_.data() - &other.line_[0];
+    value_ = std::string_view(line_.data() + start_offset, value_.size());
+    return *this;
+  }
+
   std::string_view key() const
   {
     return key_;
